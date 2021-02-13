@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">prof</string>
+    <string name="error_textview_stub">Ошибка</string>
+</resources>
