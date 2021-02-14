@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">prof</string>
     <string name="error_textview_stub">Ошибка</string>
+        <string name="Найти">Пщиск</string>
+    <string name="search_hint">Поиск</string>
+    <string name="button_search">Найти</string>
+    <string name="undefined_error">Неизвестная ошибка</string>
+    <string name="empty_server_response_on_success">Не найдено</string>
 </resources>
