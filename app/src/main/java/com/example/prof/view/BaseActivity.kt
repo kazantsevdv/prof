@@ -4,27 +4,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prof.Contract
 import com.example.prof.model.AppState
+import com.example.prof.viewmodel.BaseViewModel
 
-abstract class BaseActivity<T : AppState> : AppCompatActivity(), Contract.View {
+abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 
-    protected lateinit var presenter: Contract.Presenter<T, Contract.View>
+    abstract val model: BaseViewModel<T>
 
-    protected abstract fun createPresenter(): Contract.Presenter<T, Contract.View>
+  //  protected lateinit var presenter: Contract.Presenter<T, Contract.View>
 
-    abstract override fun renderData(appState: AppState)
+ //   protected abstract fun createPresenter(): Contract.Presenter<T, Contract.View>
+
+    abstract  fun renderData(appState: AppState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = createPresenter()
+//        presenter = createPresenter()
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.attachView(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.detachView(this)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        presenter.attachView(this)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        presenter.detachView(this)
+//    }
 }
