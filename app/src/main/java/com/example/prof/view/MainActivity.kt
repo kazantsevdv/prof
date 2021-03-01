@@ -1,34 +1,54 @@
 package com.example.prof.view
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.example.prof.R
+import com.example.prof.iteractor.MainInteractor
 import com.example.prof.model.AppState
 import com.example.prof.model.DataModel
-import com.example.prof.view.Adapter.OnListItemClickListener
 import com.example.prof.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+
 import kotlinx.android.synthetic.main.error.*
 import kotlinx.android.synthetic.main.load.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<AppState>() {
+class MainActivity : BaseActivity<AppState, MainInteractor>() {
     companion object {
         private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
             "123"
     }
 
-    private var adapter: Adapter? = null
+    private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
 
 
     override lateinit var model: MainViewModel
+
+    private val onListItemClickListener: MainAdapter.OnListItemClickListener =
+        object : MainAdapter.OnListItemClickListener {
+            override fun onItemClick(data: DataModel) {
+                startActivity(
+                    DescriptionActivity.getIntent(
+                        this@MainActivity,
+                        data.text!!,
+                        data.meanings!!.joinToString(","),
+                        data.meanings[0].imageUrl
+                    )
+                )
+            }
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         iniViewModel()
+
+        main_activity_recyclerview.adapter = adapter
 
         search_fab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
@@ -41,75 +61,48 @@ class MainActivity : BaseActivity<AppState>() {
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
+        search_hist_fab.setOnClickListener {
+            val searchDialogFragment = SearchDialogFragment.newInstance()
+            searchDialogFragment.setOnSearchClickListener(object :
+                SearchDialogFragment.OnSearchClickListener {
+                override fun onClick(searchWord: String) {
+                    model.getData(searchWord, false)
+
+                }
+            })
+            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+        }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 
+
     private fun iniViewModel() {
-        //check(main_activity_recyclerview.adapter == null) { "The ViewModel should be initialised first" }
+
         val viewModel: MainViewModel by viewModel()
         model = viewModel
         model.subscribe().observe(this@MainActivity, { renderData(it) })
     }
 
-
-    private fun showErrorScreen(error: String?) {
-        showViewError()
-        error_textview.text = error ?: getString(R.string.undefined_error)
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
 
     }
 
-    private fun showViewSuccess() {
-        success_linear_layout.visibility = View.VISIBLE
-        loading_frame_layout.visibility = View.GONE
-        error_linear_layout.visibility = View.GONE
-    }
 
-    private fun showViewLoading() {
-        success_linear_layout.visibility = View.GONE
-        loading_frame_layout.visibility = View.VISIBLE
-        error_linear_layout.visibility = View.GONE
-    }
-
-    private fun showViewError() {
-        success_linear_layout.visibility = View.GONE
-        loading_frame_layout.visibility = View.GONE
-        error_linear_layout.visibility = View.VISIBLE
-    }
-
-
-    override fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                val dataModel = appState.data
-                if (dataModel == null || dataModel.isEmpty()) {
-                    showErrorScreen(getString(R.string.empty_server_response_on_success))
-                } else {
-                    showViewSuccess()
-                    if (adapter == null) {
-                        main_activity_recyclerview.layoutManager =
-                            LinearLayoutManager(applicationContext)
-                        main_activity_recyclerview.adapter =
-                            Adapter(object : OnListItemClickListener {
-                                override fun onItemClick(data: DataModel) {
-
-                                }
-                            }, dataModel)
-                    } else {
-                        adapter!!.setData(dataModel)
-                    }
-                }
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-                if (appState.progress != null) {
-                    progressBar.visibility = View.GONE
-                } else {
-                    progressBar.visibility = View.VISIBLE
-                }
-            }
-            is AppState.Error -> {
-                showErrorScreen(appState.error.message)
-            }
-        }
-    }
 }

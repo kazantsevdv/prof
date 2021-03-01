@@ -6,4 +6,5 @@
     <string name="button_search">Найти</string>
     <string name="undefined_error">Неизвестная ошибка</string>
     <string name="empty_server_response_on_success">Не найдено</string>
+    <string name="menu_title_history">История</string>
 </resources>
