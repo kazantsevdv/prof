@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.prof.R
 import com.example.prof.iteractor.HistoryInteractor
-import com.example.prof.model.AppState
-import com.example.prof.model.DataModel
+import com.example.model.AppState
+import com.example.model.DataModel
 import com.example.prof.viewmodel.HistoryViewModel
 import kotlinx.android.synthetic.main.activity_history.*
 import org.koin.android.viewmodel.ext.android.viewModel

@@ -4,12 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.prof.R
 import com.example.prof.iteractor.MainInteractor
-import com.example.prof.model.AppState
-import com.example.prof.model.DataModel
+import com.example.model.AppState
+import com.example.model.DataModel
 import com.example.prof.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -36,7 +35,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         this@MainActivity,
                         data.text!!,
                         data.meanings!!.joinToString(","),
-                        data.meanings[0].imageUrl
+                        data.meanings!![0].imageUrl
                     )
                 )
             }

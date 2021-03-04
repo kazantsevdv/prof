@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prof.R
-import com.example.prof.model.DataModel
+import com.example.model.DataModel
 import kotlinx.android.synthetic.main.activity_main_rv_item.view.*
-import okhttp3.internal.notify
 
 
 class MainAdapter(

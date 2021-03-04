@@ -1,8 +1,8 @@
 package com.example.prof.iteractor
 
-import com.example.prof.Contract
-import com.example.prof.model.AppState
-import com.example.prof.model.DataModel
+import com.example.model.Contract
+import com.example.model.AppState
+import com.example.model.DataModel
 
 class MainInteractor(
     private val repositoryRemote: Contract.Repository<List<DataModel>>,
