@@ -2,14 +2,16 @@ package com.example.prof.view
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prof.Contract
+
+import com.example.model.AppState
+import com.example.model.Contract
+import com.example.model.DataModel
 import com.example.prof.R
-import com.example.prof.model.AppState
-import com.example.prof.model.DataModel
 import com.example.prof.viewmodel.BaseViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.error.*
 import kotlinx.android.synthetic.main.load.*
+
 
 abstract class BaseActivity<T : AppState, I : Contract.Interactor<T>> : AppCompatActivity() {
 

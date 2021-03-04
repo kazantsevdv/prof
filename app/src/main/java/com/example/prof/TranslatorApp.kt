@@ -1,9 +1,9 @@
 package com.example.prof
 
 import android.app.Application
-import com.example.prof.model.koin.application
-import com.example.prof.model.koin.historyScreen
-import com.example.prof.model.koin.mainScreen
+import com.example.prof.koin.application
+import com.example.prof.koin.historyScreen
+import com.example.prof.koin.mainScreen
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

@@ -2,7 +2,7 @@ package com.example.prof.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.prof.model.AppState
+import com.example.model.AppState
 import kotlinx.coroutines.*
 
 

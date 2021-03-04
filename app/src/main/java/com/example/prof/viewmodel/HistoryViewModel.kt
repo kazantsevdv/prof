@@ -2,8 +2,8 @@ package com.example.prof.viewmodel
 
 import androidx.lifecycle.LiveData
 import com.example.prof.iteractor.HistoryInteractor
-import com.example.prof.model.AppState
-import com.example.prof.util.parseLocalSearchResults
+import com.example.model.AppState
+import com.example.core.util.parseLocalSearchResults
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(private val interactor: HistoryInteractor) :
