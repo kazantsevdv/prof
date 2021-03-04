@@ -4,11 +4,12 @@ import com.example.prof.Contract
 import com.example.prof.model.AppState
 import com.example.prof.model.DataModel
 
-class InteractorImp(
+class HistoryInteractor(
     private val repositoryRemote: Contract.Repository<List<DataModel>>,
-    private val repositoryLocal: Contract.Repository<List<DataModel>>
+    private val repositoryLocal: Contract.RepositoryLocal<List<DataModel>>
 ) : Contract.Interactor<AppState> {
-    override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
+
+    override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState{
         return AppState.Success(
             if (fromRemoteSource) {
                 repositoryRemote
@@ -17,6 +18,4 @@ class InteractorImp(
             }.getData(word)
         )
     }
-
 }
-
