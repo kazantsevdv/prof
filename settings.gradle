@@ -1,3 +1,4 @@
+include ':description_feature'
 include ':repo'
 include ':model'
 include ':core'

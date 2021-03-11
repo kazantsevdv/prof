@@ -35,11 +35,11 @@ abstract class BaseActivity<T : AppState, I : Contract.Interactor<T>> : AppCompa
             }
             is AppState.Loading -> {
                 showViewLoading()
-                if (appState.progress != null) {
-                    progressBar.visibility = View.GONE
-                } else {
-                    progressBar.visibility = View.VISIBLE
-                }
+//                if (appState.progress != null) {
+//                    progressBar.visibility = View.GONE
+//                } else {
+//                    progressBar.visibility = View.VISIBLE
+//                }
             }
             is AppState.Error -> {
                 showErrorScreen(appState.error.message)

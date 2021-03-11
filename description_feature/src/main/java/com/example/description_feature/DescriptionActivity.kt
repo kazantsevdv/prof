@@ -1,4 +1,4 @@
-package com.example.prof.view
+package com.example.description_feature
 
 import android.content.Context
 import android.content.Intent
@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prof.R
+
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_desc.*
+
 
 class DescriptionActivity :AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +85,7 @@ class DescriptionActivity :AppCompatActivity() {
         private const val DESCRIPTION_EXTRA = "DESCRIPTION_EXTRA"
         private const val URL_EXTRA = "URL_EXTRA"
 
-        fun getIntent(
+        @JvmStatic  fun getIntent(
             context: Context,
             word: String,
             description: String,
