@@ -14,7 +14,7 @@ class TranslatorApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(applicationContext)
+            androidContext(this@TranslatorApp)
             modules(listOf(application, mainScreen, historyScreen))
         }
 

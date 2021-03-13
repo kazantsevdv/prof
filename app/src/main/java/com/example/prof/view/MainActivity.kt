@@ -5,21 +5,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-
-import com.example.prof.R
-import com.example.prof.iteractor.MainInteractor
+import androidx.recyclerview.widget.RecyclerView
+import com.example.core.util.viewById
 import com.example.model.AppState
 import com.example.model.DataModel
+import com.example.prof.R
+import com.example.prof.iteractor.MainInteractor
 import com.example.prof.viewmodel.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
-import kotlinx.android.synthetic.main.activity_main.*
-
-import kotlinx.android.synthetic.main.error.*
-import kotlinx.android.synthetic.main.load.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.scope.currentScope
 
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
@@ -32,6 +29,10 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         private const val DESCRIPTION_EXTRA = "DESCRIPTION_EXTRA"
         private const val URL_EXTRA = "URL_EXTRA"
     }
+
+    private val mainActivityRecyclerview by viewById<RecyclerView>(R.id.main_activity_recyclerview)
+    private val searchFAB by viewById<FloatingActionButton>(R.id.search_fab)
+    private val searchHistFAB by viewById<FloatingActionButton>(R.id.search_hist_fab)
 
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
     private lateinit var splitInstallManager: SplitInstallManager
@@ -55,7 +56,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                     .addOnSuccessListener {
                         // Открываем экран
                         val intent = Intent().setClassName(packageName, DESC_ACTIVITY_PATH)
-                         val descActivity = Class.forName(DESC_ACTIVITY_PATH).kotlin
                         intent.putExtra(WORD_EXTRA, data.text!!)
                         intent.putExtra(DESCRIPTION_EXTRA, data.meanings!!.joinToString(","))
                         intent.putExtra(URL_EXTRA, data.meanings!![0].imageUrl)
@@ -81,9 +81,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         setContentView(R.layout.activity_main)
         iniViewModel()
 
-        main_activity_recyclerview.adapter = adapter
+        mainActivityRecyclerview.adapter = adapter
 
-        search_fab.setOnClickListener {
+        searchFAB.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
@@ -94,7 +94,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
-        search_hist_fab.setOnClickListener {
+        searchHistFAB.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
@@ -125,8 +125,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
 
     private fun iniViewModel() {
+//        injectDependencies()
 
-        val viewModel: MainViewModel by viewModel()
+        val viewModel: MainViewModel by currentScope.inject()
         model = viewModel
         model.subscribe().observe(this@MainActivity, { renderData(it) })
     }
