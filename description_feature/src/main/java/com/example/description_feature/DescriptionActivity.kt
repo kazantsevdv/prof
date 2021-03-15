@@ -5,23 +5,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.core.util.viewById
 
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_desc.*
+
 
 
 class DescriptionActivity :AppCompatActivity() {
+    private val description_header by viewById<TextView>(R.id.description_header)
+    private val description_textview by viewById<TextView>(R.id.description_textview)
+    private val description_imageview by viewById<ImageView>(R.id.description_imageview)
+    private val description_screen_swipe_refresh_layout by viewById<SwipeRefreshLayout>(R.id.description_screen_swipe_refresh_layout)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_desc)
 
         setActionbarHomeButtonAsUp()
         // Устанавливаем слушатель обновления экрана
-        description_screen_swipe_refresh_layout.setOnRefreshListener{ setData() }
+        description_screen_swipe_refresh_layout.setOnRefreshListener { setData() }
         setData()
     }
+
     // Переопределяем нажатие на стрелку Назад, чтобы возвращаться по нему
     // на главный экран
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
