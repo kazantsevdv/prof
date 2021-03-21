@@ -7,5 +7,6 @@
     <string name="undefined_error">Неизвестная ошибка</string>
     <string name="empty_server_response_on_success">Не найдено</string>
     <string name="menu_title_history">История</string>
+    <string name="menu_title_settings">Settings</string>
     <string name="title_description_feature">Description</string>
 </resources>
